@@ -1,0 +1,19 @@
+apiVersion: templates.gatekeeper.sh/v1beta1
+kind: ConstraintTemplate
+metadata:
+  name: k8sdisallowdefaultnamespace
+spec:
+  crd:
+    spec:
+      names:
+        kind: K8sDisallowDefaultNamespace
+  targets:
+    - target: admission.k8s.gatekeeper.sh
+      rego: |
+        package k8sdisallowdefaultnamespace
+
+        violation[{"msg": msg}] {
+          ns := input.review.object.metadata.namespace
+          re_match("^default$", ns)
+          msg := sprintf("No objects are permitted to be deployed to the %v namespace",[ns])
+        }

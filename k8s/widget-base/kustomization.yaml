@@ -1,0 +1,6 @@
+resources:
+- widget-namespace.yaml
+- widget-deployment.yaml
+
+generatorOptions:
+ disableNameSuffixHash: true

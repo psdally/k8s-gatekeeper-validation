@@ -1,0 +1,7 @@
+resources:
+- disallow-default-namespace.yaml
+- require-nodeselector.yaml
+- referential-constraint-config.yaml
+
+generatorOptions:
+ disableNameSuffixHash: true

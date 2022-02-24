@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: local-demo-doodad-ns
+  labels:
+    kubernetes.io/metadata.name: local-demo-doodad-ns
+    businessunit: doodad

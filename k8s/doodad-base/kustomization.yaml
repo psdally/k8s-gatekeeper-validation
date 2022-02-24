@@ -1,0 +1,6 @@
+resources:
+- doodad-namespace.yaml
+- doodad-deployment.yaml
+
+generatorOptions:
+ disableNameSuffixHash: true

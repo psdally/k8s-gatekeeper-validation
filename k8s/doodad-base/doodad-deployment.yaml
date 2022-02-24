@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: doodad-deployment
+  namespace: local-demo-doodad-ns
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: doodad-deployment
+  replicas: 4
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: doodad-deployment
+    spec:
+      containers:
+        - name: doodad-app
+          image: doodad-app:1.0.0
+          resources:
+            requests:
+              cpu: 50m
+              memory: 32Mi
+            limits:
+              cpu: 100m
+              memory: 64Mi

@@ -1,0 +1,6 @@
+resources:
+- disallow-pods-in-default-ns.yaml
+- require-nodeselector-for-pods.yaml
+
+generatorOptions:
+ disableNameSuffixHash: true

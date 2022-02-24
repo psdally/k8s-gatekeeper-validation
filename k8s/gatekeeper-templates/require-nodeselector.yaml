@@ -1,0 +1,44 @@
+apiVersion: templates.gatekeeper.sh/v1beta1
+kind: ConstraintTemplate
+metadata:
+  name: k8srequirenodeselector
+spec:
+  crd:
+    spec:
+      names:
+        kind: K8sRequireNodeSelector
+  targets:
+    - target: admission.k8s.gatekeeper.sh
+      rego: |
+        package k8srequirenodeselector
+
+        violation[{"msg": msg}] {
+
+          # Retrieve the nodeSelectors
+          selectors := {k | input.review.object.spec.nodeSelector[k]}
+
+          # Filter the nodeSelectors to just those that have a key of "businessunit"
+          required_selectors := {k | k := "businessunit"}
+
+          # Make sure the required businessunit nodeSelector is implemented
+          count(required_selectors - selectors) > 0
+
+          msg := "A businessunit nodeSelector must be present on all Pod specs. If your Namespace does not require that Pods run on a specific set of Nodes, specify a nodeSelector of businessunit: shared. See http://example.com/businessunit_nodeselector for further information"
+        }
+
+        violation[{"msg": msg}] {
+
+          # Get the Pod's namespace name
+          ns := input.review.object.metadata.namespace
+
+          # Retrieve the businessunit label from the Namespace
+          namespace_label := data.inventory.cluster["v1"].Namespace[ns].metadata.labels["businessunit"]
+
+          # Retrieve the businessunit nodeSelector (if present) from the Pod
+          nodeselector := input.review.object.spec.nodeSelector["businessunit"]
+
+          # Reject the request if the namespace label does not match the nodeselector value
+          namespace_label != nodeselector
+
+          msg := sprintf("The businessunit nodeSelector value of %v does not match the namespace businessunit label value of %v for namespace %v.  Please modify your nodeSelector value accordingly or deploy to a different Namespace.  See http://example.com/businessunit_nodeselector for further information",[nodeselector,ns,namespace_label])
+        }

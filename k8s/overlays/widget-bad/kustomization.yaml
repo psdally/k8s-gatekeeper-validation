@@ -1,0 +1,5 @@
+bases:
+- ../../widget-base
+
+generatorOptions:
+  disableNameSuffixHash: true
