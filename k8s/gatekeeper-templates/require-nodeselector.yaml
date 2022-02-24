@@ -40,5 +40,5 @@ spec:
           # Reject the request if the namespace label does not match the nodeselector value
           namespace_label != nodeselector
 
-          msg := sprintf("The businessunit nodeSelector value of %v does not match the namespace businessunit label value of %v for namespace %v.  Please modify your nodeSelector value accordingly or deploy to a different Namespace.  See http://example.com/businessunit_nodeselector for further information",[nodeselector,ns,namespace_label])
+          msg := sprintf("The businessunit nodeSelector value of %v does not match the namespace businessunit label value of %v for namespace %v.  Please modify your nodeSelector value accordingly or deploy to a different Namespace.  See http://example.com/businessunit_nodeselector for further information",[nodeselector,namespace_label,ns])
         }
